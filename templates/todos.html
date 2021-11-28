@@ -22,12 +22,12 @@
             </tr>
         {% endfor %}
         <tr>
-            <form method="post" action="{{ app.request.baseurl }}/todo/add">
+            <form id="description_form" method="post" action="{{ app.request.baseurl }}/todo/add">
                 <td colspan="3">
-                    <input type="textbox" name="description" class="small-6 small-center" placeholder="Description...">
+                    <input type="textbox" name="description" id="description" class="small-6 small-center" placeholder="Description..." >
                 </td>
                 <td>
-                    <button type="submit" class="btn btn-sm btn-primary">Add</button>
+                    <button type="button" id="description_submit" onclick="check_description()" class="btn btn-sm btn-primary">Add</button>
                 </td>
             </form>
         </tr>
