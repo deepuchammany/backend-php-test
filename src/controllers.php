@@ -95,3 +95,16 @@ $app->match('/todo/complete/{id}', function ($id) use ($app) {
 
     return $app->redirect('/todo');
 });
+
+$app->match('/todo/{id}/json', function ($id) use ($app) {
+
+    if ($id){
+        $sql = "SELECT * FROM todos WHERE id = '$id'";
+        $todo = $app['db']->fetchAssoc($sql);
+        $result = '{id: '.$todo['id'].', user_id: '.$todo['user_id'].', description: "'.$todo['description'].'"}';
+    }
+    else{
+        $result='Incorrect ID';
+    }
+    return $result;
+});
