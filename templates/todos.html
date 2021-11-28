@@ -46,5 +46,13 @@
             </form>
         </tr>
     </table>
+
+{% if app.session.flashBag.has('success') %}
+    <div class="alert alert-success" id="success">
+        {% for msg in app.session.flashBag.get('success') %}
+            {{ msg }}
+        {% endfor %}
+    </div>
+{% endif %}
 </div>
 {% endblock %}
