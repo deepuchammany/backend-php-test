@@ -64,6 +64,14 @@ $app->get('/todo/{id}', function ($id) use ($app) {
 })
 ->value('id', null);
 
+$app->get('/fetch_todo', function (Request $request) use ($app) {
+
+    $sql = "SELECT * FROM todos";
+    $todos = $app['db']->fetchAll($sql);
+    $result=json_encode($todos);
+    return $result;
+});
+
 
 $app->post('/todo/add', function (Request $request) use ($app) {
     if (null === $user = $app['session']->get('user')) {
@@ -94,12 +102,30 @@ $app->match('/todo/delete/{id}', function (Request $request,$id) use ($app) {
     return $app->redirect('/todo');
 });
 
+$app->get('/ajax_delete/{id}', function (Request $request,$id) use ($app) {
+
+    $sql = "DELETE FROM todos WHERE id = '$id'";
+    $app['db']->executeUpdate($sql);
+    $request->getSession()
+        ->getFlashBag()
+        ->add('success', 'Todo deleted successfully!')
+    ;
+    return 1;
+});
+
 $app->match('/todo/complete/{id}', function ($id) use ($app) {
 
     $sql = "UPDATE todos SET completed=1 WHERE id = '$id'";
     $app['db']->executeUpdate($sql);
 
     return $app->redirect('/todo');
+});
+
+$app->get('/ajax_complete/{id}', function ($id) use ($app) {
+
+    $sql = "UPDATE todos SET completed=1 WHERE id = '$id'";
+    $app['db']->executeUpdate($sql);
+    return 1;
 });
 
 $app->match('/todo/{id}/json', function ($id) use ($app) {

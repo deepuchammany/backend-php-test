@@ -5,36 +5,36 @@
     <h1>Todo List:</h1>
     <table class="table table-striped" id="data">
         <th>#</th><th>User</th><th>Description</th><th></th><th></th><th></th>
-        {% for todo in todos %}
-            <tr>
-                <td>{{ todo.id }}</td>
-                <td>{{ todo.user_id }}</td>
-                <td>
-                    <a href="{{ app.request.baseurl }}/todo/{{ todo.id }}">
-                       {{ todo.description }}
-                    </a>
-                </td>
-                <td>
-                    {% if todo.completed==0 %}
-                    <form method="post" action="{{ app.request.baseurl }}/todo/complete/{{ todo.id }}">
-                        <button type="submit" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-ok"></span></button>
-                    </form>
-                    {% else %}
-                    <button type="submit" class="btn btn-xs btn-info">Completed</button>
-                    {% endif %}
-                </td>
-                <td>
-                    <form method="post" action="{{ app.request.baseurl }}/todo/delete/{{ todo.id }}">
-                        <button type="submit" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove glyphicon-white"></span></button>
-                    </form>
-                </td>
-                <td>
-                    <form method="post" action="{{ app.request.baseurl }}/todo/{{ todo.id }}/json">
-                        <button type="submit" class="btn btn-xs btn-light">JSON</button>
-                    </form>
-                </td>
-            </tr>
-        {% endfor %}
+        <!-- {% for todo in todos %} -->
+        <!-- <tr> -->
+            <!-- <td>{{ todo.id }}</td>
+            <td>{{ todo.user_id }}</td>
+            <td>
+                <a href="{{ app.request.baseurl }}/todo/{{ todo.id }}">
+                 {{ todo.description }}
+             </a>
+             </td>
+             <td>
+                {% if todo.completed==0 %}
+                <form method="post" action="{{ app.request.baseurl }}/todo/complete/{{ todo.id }}">
+                    <button type="submit" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-ok"></span></button>
+                </form>
+                {% else %}
+                <button type="submit" class="btn btn-xs btn-info">Completed</button>
+                {% endif %}
+            </td>
+            <td>
+                <form method="post" action="{{ app.request.baseurl }}/todo/delete/{{ todo.id }}">
+                    <button type="submit" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove glyphicon-white"></span></button>
+                </form>
+            </td>
+            <td>
+                <form method="post" action="{{ app.request.baseurl }}/todo/{{ todo.id }}/json">
+                    <button type="submit" class="btn btn-xs btn-light">JSON</button>
+                </form>
+            </td> --> 
+        <!-- </tr> -->
+        <!-- {% endfor %} -->
     </table>
     <br><br>
     <tr>

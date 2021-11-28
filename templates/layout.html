@@ -51,29 +51,92 @@
       }
       setTimeout(function(){ $('#success').hide(); }, 10000);
     </script>
+    <script type="text/javascript">
+      $(document).ready (function () {   
+        load_list();
+      });
+      function load_list(){
+        $.ajax({
+            url: "/fetch_todo",
+            type: 'GET',
+            dataType: 'json', // added data type
+            success: function(res) {
+              var result;
+              for(var i = 0; i<res.length;i++){
+                result+='<tr>\
+                <td>'+res[i].id+'</td>\
+                <td>'+res[i].user_id+'</td>\
+                <td>';
+                result+='<a href="{{ app.request.baseurl }}/todo/'+res[i].id+'">'+
+                     res[i].description+
+                 '</a>\
+                 </td>\
+                 <td>';
+                    if (res[i].completed==0){
+                      result+='<button type="submit" onclick="complete('+res[i].id+')" class="btn btn-xs btn-success"><span class="glyphicon glyphicon-ok"></span></button>';
+                    }
+                    else{
+                      result+='<button type="submit" class="btn btn-xs btn-info">Completed</button>';
+                    }
+                result+='</td>\
+                <td>\
+                        <button type="submit" onclick="ajax_delete('+res[i].id+')" class="btn btn-xs btn-danger"><span class="glyphicon glyphicon-remove glyphicon-white"></span></button>\
+                </td>\
+                <td>\
+                    <form method="post" action="{{ app.request.baseurl }}/todo/'+res[i].id+'/json">\
+                        <button type="submit" class="btn btn-xs btn-light">JSON</button>\
+                    </form>\
+                </td>\
+                </tr>';
+              }
+              $('#data').append(result);
+            }
+        });
+      }
+      function complete(id){
+        $.ajax({
+            url: "/ajax_complete/"+id,
+            type: 'GET',
+            success: function(res) {
+              $("#data").load(location.href+" #data>*","");
+              load_list();
+            }
+          });
+      }
+      function ajax_delete(id){
+        $.ajax({
+            url: "/ajax_delete/"+id,
+            type: 'GET',
+            success: function(res) {
+              $("#data").load(location.href+" #data>*","");
+              load_list();
+            }
+          });
+      }
+    </script>
     <script>  
-    $(document).ready (function () {  
-        $('#data').after ('<div id="nav"></div>');  
-        var rowsShown = 5;  
-        var rowsTotal = $('#data tbody tr').length;  
-        var numPages = rowsTotal/rowsShown;  
-        for (i = 0;i < numPages;i++) {  
-            var pageNum = i + 1;  
-            $('#nav').append ('<a href="#" rel="'+i+'">'+pageNum+'</a> ');  
-        }  
-        $('#data tbody tr').hide();  
-        $('#data tbody tr').slice (0, rowsShown).show();  
-        $('#nav a:first').addClass('active');  
-        $('#nav a').bind('click', function() {  
-        $('#nav a').removeClass('active');  
-       $(this).addClass('active');  
-            var currPage = $(this).attr('rel');  
-            var startItem = currPage * rowsShown;  
-            var endItem = startItem + rowsShown;  
-            $('#data tbody tr').css('opacity','0.0').hide().slice(startItem, endItem).  
-            css('display','table-row').animate({opacity:1}, 300);  
-        });  
-    });  
-    </script> 
+    // $(document).ready (function () {  
+    //     $('#data').after ('<div id="nav"></div>');  
+    //     var rowsShown = 5;  
+    //     var rowsTotal = $('#data tbody tr').length;  
+    //     var numPages = rowsTotal/rowsShown;  
+    //     for (i = 0;i < numPages;i++) {  
+    //         var pageNum = i + 1;  
+    //         $('#nav').append ('<a href="#" rel="'+i+'">'+pageNum+'</a> ');  
+    //     }  
+    //     $('#data tbody tr').hide();  
+    //     $('#data tbody tr').slice (0, rowsShown).show();  
+    //     $('#nav a:first').addClass('active');  
+    //     $('#nav a').bind('click', function() {  
+    //     $('#nav a').removeClass('active');  
+    //    $(this).addClass('active');  
+    //         var currPage = $(this).attr('rel');  
+    //         var startItem = currPage * rowsShown;  
+    //         var endItem = startItem + rowsShown;  
+    //         $('#data tbody tr').css('opacity','0.0').hide().slice(startItem, endItem).  
+    //         css('display','table-row').animate({opacity:1}, 300);  
+    //     });  
+    // });  
+    </script>
   </body>
 </html>
